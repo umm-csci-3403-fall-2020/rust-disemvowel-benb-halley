@@ -17,20 +17,24 @@ fn main() {
 
     //TODO: Panic if not enough arguments are provided
     //Panic should output the string "Not enough arguments"
-
+    if args.len() < 2 || args.len() > 2 {
+        panic!("Not enough arguments")
+    }
     //TODO: 
     //  * Pass an argument to read_file to read the original text
     //  * Pass that to disemvowel to remove the vowels
     //  * Write the disemvoweled text using write_file
 
     // Replace String::from("test") with what you get from read_file
-    let s = String::from("dummy text");
+    let path = Path::new(&args[0]);
+    let s = String::from(read_file(path));
 
     let s_disemvowel = disemvowel(&s);
 
+
     // Use command-line arguments for the name of the file,
     // and s_disemvowel for the text to write out.
-    write_file(Path::new("dummy.txt"), "output string");
+    write_file(Path::new(&args[0]), &args[1]);
 }
 
 fn read_file(path: &Path) -> String {
@@ -42,8 +46,16 @@ fn write_file(path: &Path, s: &str) {
 
 //TODO: Return the input string without vowels.
 fn disemvowel(s: &str) -> String {
-    String::from(s)
+    let mut iterableS = s.chars().peekable();
+    let mut disemvoweled = String::new();
+    while let Some(c) = iterableS.next() {
+        if c != 'a' && c != 'A' && c != 'e' && c != 'E' && c != 'i' && c != 'I' && c != 'o' && c != 'O' && c != 'u' && c != 'U' {
+            disemvoweled.push(c);
+        }
+    }
+    String::from(disemvoweled)
 }
+
 
 // Everything from here down is Rust test code. You shouldn't need to
 // change any of this.
